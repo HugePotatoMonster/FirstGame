@@ -1,12 +1,9 @@
 #include "StartScene.h"
 #include "SimpleAudioEngine.h"
+#include "SimpleAudioEngine.h"
+#include "BeginLevel.h"
 
 USING_NS_CC;
-
-Scene* StartScene::createScene()
-{
-	return StartScene::create();
-}
 
 static void problemLoading(const char* filename)
 {
@@ -14,8 +11,14 @@ static void problemLoading(const char* filename)
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
+Scene* StartScene::createScene()
+{
+	return StartScene::create();
+}
+
 bool StartScene::init()
 {
+
 	if (!Scene::init())
 	{
 		return false;
@@ -38,5 +41,9 @@ bool StartScene::init()
 
 void StartScene::startGame(cocos2d::Ref* Sender)
 {
-	Director::getInstance()->end();
+
+	auto buttumSound = CocosDenshion::SimpleAudioEngine::getInstance();
+	buttumSound->playEffect("music/ButtumSound.mp3" , false , 1.0f , 1.0f , 1.0f );
+
+	Director::getInstance()->replaceScene(BeginLevel::createScene());
 }

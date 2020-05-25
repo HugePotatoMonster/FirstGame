@@ -24,6 +24,7 @@
 
 #include "AppDelegate.h"
 #include "StartScene.h"
+#include "BeginLevel.h"
 #include <vector>
 
 // #define USE_AUDIO_ENGINE 1
@@ -43,8 +44,8 @@ using namespace CocosDenshion;
 
 USING_NS_CC;
 
-static cocos2d::Size designResolutionSize = cocos2d::Size(997, 560);
-static cocos2d::Size smallResolutionSize = cocos2d::Size(997, 560);
+static cocos2d::Size designResolutionSize = cocos2d::Size(960, 580);
+static cocos2d::Size smallResolutionSize = cocos2d::Size(960, 580);
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
 static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 

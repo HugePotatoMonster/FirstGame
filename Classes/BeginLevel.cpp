@@ -9,36 +9,75 @@ Scene* BeginLevel::createScene()
 	return BeginLevel::create();
 }
 
+//按下键盘时
 void BeginLevel::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
 	keys[keyCode] = true;
 }
+
+//松开键盘时
 void BeginLevel::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event)
 {
 	keys[keyCode] = false;
 }
 
+//检测某个键是否被按住
+bool BeginLevel::isKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode) {
+	if (keys[keyCode]) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+//如果某个键正被按住
 void BeginLevel::keyPressedDuration(cocos2d::EventKeyboard::KeyCode code) {
 	int offsetX = 0, offsetY = 0;
+	hero.curPosition = hero.object->getPosition() ;
+	auto layer1 = wall1->getLayer("layer1");
+	auto layer2 = wall2->getLayer("layer1");
 	switch (code) {
 	case cocos2d::EventKeyboard::KeyCode::KEY_A:
-		offsetX = -5;
+		offsetX = -4;
 		break;
 	case cocos2d::EventKeyboard::KeyCode::KEY_D:
-		offsetX = 5;
+		offsetX = 4;
 		break;
 	case cocos2d::EventKeyboard::KeyCode::KEY_W:
-		offsetY = 5;
+		offsetY = 4;
 		break;
 	case cocos2d::EventKeyboard::KeyCode::KEY_S:
-		offsetY = -5;
+		offsetY = -4;
 		break;
 	default:
 		offsetY = offsetX = 0;
 		break;
 	}
-	auto moveTo = MoveTo::create(0.3, Vec2(hero->getPositionX() + offsetX, hero->getPositionY() + offsetY));
-	hero->runAction(moveTo);
+	if (offsetX > 0)
+		hero.curPosition.x += 20;
+	else if (offsetX < 0)
+		hero.curPosition.x -= 20;
+	int tarX = hero.curPosition.x + 5*offsetX, tarY = hero.curPosition.y + 5*offsetY;
+	int tileX = tarX / 40, tileY =  tarY / 40;
+	if ( layer1->getTileAt(Vec2(tileX, tileY))!= 0 || layer2->getTileAt(Vec2(tileX, tileY)) != 0 )
+	{
+		offsetX = 0;
+		offsetY = 0;
+	}
+	auto moveBy = MoveBy::create(0.1, Vec2( offsetX, offsetY));
+	hero.object->runAction(moveBy);
+}
+
+//鼠标移动时
+void BeginLevel::onMouseMove(Event *event)
+{
+	EventMouse* mouse = (EventMouse*)event;
+	int mouseX = mouse->getCursorX() , mouseY = mouse->getCursorY();
+	if (mouseX < hero.curPosition.x )
+		hero.setState(1);
+	else if ( mouseX > hero.curPosition.y)
+		hero.setState(0);
 }
 
 void BeginLevel::update(float delta) {
@@ -50,25 +89,17 @@ void BeginLevel::update(float delta) {
 	if (isKeyPressed(left)) {
 		keyPressedDuration(left);
 	}
-	else if (isKeyPressed(right)) {
+	if (isKeyPressed(right)) {
 		keyPressedDuration(right);
 	}
-	else if (isKeyPressed(up)) {
+	if (isKeyPressed(up)) {
 		keyPressedDuration(up);
 	}
-	else if (isKeyPressed(down)) {
+	if (isKeyPressed(down)) {
 		keyPressedDuration(down);
 	}
 }
 
-bool BeginLevel::isKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode) {
-	if (keys[keyCode]) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
 
 bool BeginLevel::init()
 {
@@ -81,21 +112,26 @@ bool BeginLevel::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto floor = TMXTiledMap::create("levels/BeginLevel/Floor.tmx");
+	floor = TMXTiledMap::create("levels/BeginLevel/Floor.tmx");
 	this->addChild( floor, 0 );
 
-	auto wall = TMXTiledMap::create("levels/BeginLevel/Wall.tmx");
-	this->addChild( wall , 1 );
+	wall1 = TMXTiledMap::create("levels/BeginLevel/Wall1.tmx");
+	this->addChild( wall1 , 1 );
+	wall2 = TMXTiledMap::create("levels/BeginLevel/Wall2.tmx");
+	this->addChild( wall2, 50 );
 
-	hero = Sprite::create("character/Hero.png");
-	hero->setPosition(Vec2(visibleSize.width / 2 + origin.x , visibleSize.height / 2 + origin.y ));
-	this->addChild( hero , 10 );
+	hero.init();
+	hero.setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+	this->addChild( hero.object , 10 );
 
-	auto listener = EventListenerKeyboard::create();
-	listener->onKeyPressed = CC_CALLBACK_2(BeginLevel::onKeyPressed, this);
-	listener->onKeyReleased = CC_CALLBACK_2(BeginLevel::onKeyReleased, this);
+	auto keyboardListener = EventListenerKeyboard::create();
+	keyboardListener->onKeyPressed = CC_CALLBACK_2(BeginLevel::onKeyPressed, this);
+	keyboardListener->onKeyReleased = CC_CALLBACK_2(BeginLevel::onKeyReleased, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
 
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	auto mouseListener = EventListenerMouse::create();
+	mouseListener->onMouseMove = CC_CALLBACK_1(BeginLevel::onMouseMove, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
 
 	this->scheduleUpdate();
 

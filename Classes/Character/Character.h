@@ -14,8 +14,8 @@ public:
 	Vec2 curPosition;
 
 	virtual bool init()=0;
-	virtual void setPosition(Vec2 targrt)=0;
 
+	void setPosition(Vec2 targrt);
 	int checkState();
 	void setState(int state);
 };

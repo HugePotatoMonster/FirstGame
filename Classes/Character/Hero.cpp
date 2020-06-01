@@ -12,11 +12,7 @@ bool Hero::init()
 	textureNomal = CCTextureCache::sharedTextureCache()->addImage("character/Hero.png");
 	textureBack = CCTextureCache::sharedTextureCache()->addImage("character/HeroBack.png");
 
-	return true;
-}
+	curWeapon = -1;
 
-void Hero::setPosition(Vec2 target)
-{
-	curPosition = target;
-	object->setPosition(target);
+	return true;
 }

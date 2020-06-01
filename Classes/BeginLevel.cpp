@@ -13,6 +13,15 @@ Scene* BeginLevel::createScene()
 void BeginLevel::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
 	keys[keyCode] = true;
+	if (keyCode == EventKeyboard::KeyCode::KEY_E)
+	{
+		std::vector<ItemWeapon>::iterator itr = itemWeapons.begin();
+		for (; itr < itemWeapons.end(); itr++)
+		{
+			if (itr->isNear(hero.curPosition))
+				itr->pickUp(this);
+		}
+	}
 }
 
 //ËÉ¿ª¼üÅÌÊ±
@@ -82,6 +91,7 @@ void BeginLevel::onMouseMove(Event *event)
 
 void BeginLevel::update(float delta) {
 	Node::update(delta);
+
 	auto left = EventKeyboard::KeyCode::KEY_A;
 	auto right = EventKeyboard::KeyCode::KEY_D;
 	auto up = EventKeyboard::KeyCode::KEY_W;
@@ -98,6 +108,15 @@ void BeginLevel::update(float delta) {
 	if (isKeyPressed(down)) {
 		keyPressedDuration(down);
 	}
+
+	std::vector<ItemWeapon>::iterator itr = itemWeapons.begin();
+	for (; itr < itemWeapons.end(); itr++)
+	{
+		if (itr->isNear(hero.curPosition))
+			itr->nearBy(this);
+		else
+			itr->clearTip(this);
+	}
 }
 
 
@@ -111,18 +130,26 @@ bool BeginLevel::init()
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	Vec2 mid = Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
 
 	floor = TMXTiledMap::create("levels/BeginLevel/Floor.tmx");
-	this->addChild( floor, 0 );
+	this->addChild( floor , 0 );
 
 	wall1 = TMXTiledMap::create("levels/BeginLevel/Wall1.tmx");
 	this->addChild( wall1 , 1 );
 	wall2 = TMXTiledMap::create("levels/BeginLevel/Wall2.tmx");
-	this->addChild( wall2, 50 );
+	this->addChild( wall2 , 50 );
 
 	hero.init();
-	hero.setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+	hero.setPosition(mid);
 	this->addChild( hero.object , 10 );
+
+	rifle.init(1);
+	rifle.object = Sprite::create("weapon/Rifle.png");
+	rifle.object->setAnchorPoint(Vec2(0.75,0.6));
+	rifle.setPosition(Vec2(200,500));
+	itemWeapons.push_back(rifle);
+	this->addChild( rifle.object , 5 , rifle.weaponTag );
 
 	auto keyboardListener = EventListenerKeyboard::create();
 	keyboardListener->onKeyPressed = CC_CALLBACK_2(BeginLevel::onKeyPressed, this);

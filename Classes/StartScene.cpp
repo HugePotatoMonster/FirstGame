@@ -24,6 +24,8 @@ bool StartScene::init()
 		return false;
 	}
 
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("music/ButtumSound.mp3");
+
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -42,8 +44,7 @@ bool StartScene::init()
 void StartScene::startGame(cocos2d::Ref* Sender)
 {
 
-	auto buttumSound = CocosDenshion::SimpleAudioEngine::getInstance();
-	buttumSound->playEffect("music/ButtumSound.mp3" , false , 1.0f , 1.0f , 1.0f );
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/ButtumSound.mp3");
 
 	Director::getInstance()->replaceScene(BeginLevel::createScene());
 }

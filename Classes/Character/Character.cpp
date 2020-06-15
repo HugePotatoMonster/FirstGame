@@ -21,9 +21,3 @@ void Character::setState(int state)
 	if (state == 1)
 		object->setTexture(textureBack);
 }
-
-void Character::setPosition(Vec2 target)
-{
-	curPosition = target;
-	object->setPosition(target);
-}

@@ -11,10 +11,13 @@ USING_NS_CC;
 class Hero :public Character
 {
 public:
-	int weapons[2];
+	Hero();
+	int heroWeapons[2];
+	int weaponNum;
 	int curWeapon;
 
-	virtual bool init();
+	bool getItem(int tag);
+	void getWeapon(int tag);
 };
 
 #endif 

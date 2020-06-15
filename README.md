@@ -8,3 +8,5 @@
         &Fix some bugs
 
 6.1 Add item system
+
+6.15 Fixed bugs

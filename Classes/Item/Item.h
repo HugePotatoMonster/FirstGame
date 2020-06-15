@@ -7,17 +7,11 @@ USING_NS_CC;
 class Item
 {
 public:
+	Item();
 	cocos2d::Sprite *object;
-	cocos2d::Label *label;
-	Vec2 curPosition;
-	bool isOnMap;
+	int itemTag;
 
-	virtual void setPosition(Vec2 target);
 	virtual bool isNear(Vec2 target);
-
-	virtual void pickUp(cocos2d::Scene* scene) = 0;
-	virtual void nearBy(cocos2d::Scene* scene) = 0;
-	virtual void clearTip(cocos2d::Scene* scene) = 0;
 };
 
 #endif 

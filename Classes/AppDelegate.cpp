@@ -125,7 +125,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	searPaths.push_back("buttum");
 	fileUtils->setSearchPaths(searPaths);*/
 
-
     // create a scene. it's an autorelease object
     auto scene = StartScene::createScene();
 

@@ -4,16 +4,17 @@
 
 USING_NS_CC;
 
-void Item::setPosition(Vec2 target)
+Item::Item()
 {
-	curPosition = target;
-	object->setPosition(target);
+	itemTag = -1;
 }
 
 bool Item::isNear(Vec2 target)
 {
-	int dx = abs(target.x - curPosition.x);
-	int dy = abs(target.y - curPosition.y);
+	int curX = object->getPositionX();
+	int curY = object->getPositionY();
+	int dx = abs(target.x - curX);
+	int dy = abs(target.y - curY);
 	if (dx < 50 && dy < 30)
 		return true;
 	else

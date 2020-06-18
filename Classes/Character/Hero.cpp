@@ -14,17 +14,26 @@ Hero::Hero()
 
 	curWeapon = -1;
 	weaponNum = 0;
+
+	hp = 10;
+	hpSup = 10;
+
+	damageUp = 0;
+
+	hurtInterval = 60;
+	hurtCount = 60;
 }
 
-bool Hero::getItem(int tag)
+void Hero::getItem(int tag)
 {
 	if (tag >= 0 && tag <= 3)
 	{
 		this->getWeapon(tag);
-		return true;
 	}
 	else
-		return false;
+	{
+
+	}
 }
 
 void Hero::getWeapon(int tag)

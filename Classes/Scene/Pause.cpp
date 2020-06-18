@@ -35,7 +35,8 @@ bool Pause::init()
 	slider->loadSlidBallTextures("slider/Nomal.png", "slider/Pressed.png", "slider/SliderNode_Disable.png");
 	slider->loadProgressBarTexture("slider/PressedSlider.png");
 	slider->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y - 50));
-	slider->setPercent(100);
+	double vol = CocosDenshion::SimpleAudioEngine::getInstance()->getBackgroundMusicVolume();
+	slider->setPercent(vol*200);
 	slider->addEventListener([&](Ref* ref, ui::Slider::EventType type)
 	{
 		if (type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)

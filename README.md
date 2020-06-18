@@ -10,3 +10,6 @@
 6.1 Add item system
 
 6.15 Fixed bugs
+
+6.18 AI Update
+        &Add a new map

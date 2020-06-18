@@ -15,8 +15,12 @@ public:
 	int heroWeapons[2];
 	int weaponNum;
 	int curWeapon;
+	int damageUp;
 
-	bool getItem(int tag);
+	int hurtInterval;
+	int hurtCount;
+
+	void getItem(int tag);
 	void getWeapon(int tag);
 };
 

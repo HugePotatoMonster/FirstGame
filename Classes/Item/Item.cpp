@@ -15,6 +15,8 @@ bool Item::isNear(Vec2 target)
 	int curY = object->getPositionY();
 	int dx = abs(target.x - curX);
 	int dy = abs(target.y - curY);
+	if (itemTag == 4)
+		return dx < 60 && dy < 60;
 	if (dx < 50 && dy < 30)
 		return true;
 	else

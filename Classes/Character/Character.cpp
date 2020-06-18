@@ -21,3 +21,13 @@ void Character::setState(int state)
 	if (state == 1)
 		object->setTexture(textureBack);
 }
+
+void Character::changeHp(int delta)
+{
+	if (hp + delta > hpSup)
+		hp = hpSup;
+	else if (hp + delta < 0)
+		hp = 0;
+	else
+		hp = hp + delta;
+}

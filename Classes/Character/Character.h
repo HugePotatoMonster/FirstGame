@@ -11,8 +11,12 @@ public:
 	cocos2d::CCTexture2D* textureNomal;
 	cocos2d::CCTexture2D* textureBack;
 
+	int hp;
+	int hpSup;
 	int checkState();
 	void setState(int state);
+	void changeHp(int delta);
+
 };
 
 #endif 

@@ -11,5 +11,7 @@
 
 6.15 Fixed bugs
 
-6.18 AI Update
+6.18 AIl Update
         &Add a new map
+
+6.19 Final

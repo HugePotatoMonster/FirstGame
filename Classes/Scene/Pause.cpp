@@ -36,13 +36,15 @@ bool Pause::init()
 	slider->loadProgressBarTexture("slider/PressedSlider.png");
 	slider->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y - 50));
 	double vol = CocosDenshion::SimpleAudioEngine::getInstance()->getBackgroundMusicVolume();
-	slider->setPercent(vol*200);
+	slider->setPercent(vol*500);
 	slider->addEventListener([&](Ref* ref, ui::Slider::EventType type)
 	{
 		if (type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)
 		{
 			float percent = dynamic_cast<ui::Slider*> (ref)->getPercent();
-			CocosDenshion::SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(percent/200);
+			CocosDenshion::SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(percent/500);
+			CocosDenshion::SimpleAudioEngine::getInstance()->setEffectsVolume(percent/100);
+			UserDefault::sharedUserDefault()->setFloatForKey("vol", CocosDenshion::SimpleAudioEngine::getInstance()->getBackgroundMusicVolume());
 		}
 	});
 	this->addChild(slider);

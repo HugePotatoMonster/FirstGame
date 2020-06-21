@@ -327,7 +327,9 @@ bool BeginLevel::init()
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/BGM.mp3");
 
 	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/BGM.mp3",true);
-	CocosDenshion::SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(0.5f);
+
+	CocosDenshion::SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(UserDefault::sharedUserDefault()->getFloatForKey("vol"));
+	CocosDenshion::SimpleAudioEngine::getInstance()->setEffectsVolume(5*UserDefault::sharedUserDefault()->getFloatForKey("vol"));
 
 	//µØÍ¼
 	floor = TMXTiledMap::create("levels/BeginLevel/Floor.tmx");

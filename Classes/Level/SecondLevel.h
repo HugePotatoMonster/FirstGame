@@ -1,5 +1,5 @@
-#ifndef __FIRST_LEVEL_H__
-#define __FIRST_LEVEL_H__
+#ifndef __SECOND_LEVEL_H__
+#define __SECOND_LEVEL_H__
 
 #include "Hero.h"
 #include "Item.h"
@@ -9,16 +9,16 @@
 #include "cocos2d.h"
 #include "BeginLevel.h"
 #include "Dead.h"
-#include "SecondLevel.h"
+#include "Sucess.h"
 
 USING_NS_CC;
 
-class FirstLevel :public cocos2d::Scene
+class SecondLevel :public cocos2d::Scene
 {
 public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
-	CREATE_FUNC(FirstLevel);
+	CREATE_FUNC(SecondLevel);
 
 	virtual void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	virtual void onKeyReleased(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Event *event);
@@ -91,7 +91,7 @@ private:
 
 	void createItem(int tag, Vec2 position);
 	void createBullet(int tag, Vec2 position, double deg, int dam);
-	void createEnemy(int tag, Vec2 position, int health,int interval);
+	void createEnemy(int tag, Vec2 position, int health, int interval);
 	void createEnemyBullet(int tag, Vec2 position, double deg, int dam);
 };
 

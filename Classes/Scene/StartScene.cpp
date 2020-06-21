@@ -38,6 +38,8 @@ bool StartScene::init()
 	menu->setPosition(Vec2(visibleSize.width / 2 + origin.x - 250 , visibleSize.height / 2 + origin.y - 10 ));
 	this->addChild(menu,1);
 
+	UserDefault::sharedUserDefault()->setFloatForKey("vol", 0.2);
+
 	return true;
 }
 

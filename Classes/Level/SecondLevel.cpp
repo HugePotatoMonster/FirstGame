@@ -1,4 +1,4 @@
-#include "FirstLevel.h"
+#include "SecondLevel.h"
 #include "SimpleAudioEngine.h"
 #include "SimpleAudioEngine.h"
 
@@ -6,13 +6,13 @@
 
 USING_NS_CC;
 
-Scene* FirstLevel::createScene()
+Scene* SecondLevel::createScene()
 {
-	return FirstLevel::create();
+	return SecondLevel::create();
 }
 
 //创建一个物品
-void FirstLevel::createItem(int tag, Vec2 position)
+void SecondLevel::createItem(int tag, Vec2 position)
 {
 	Item temp;
 	temp.object = Sprite::createWithTexture(pictures[tag]);
@@ -24,7 +24,7 @@ void FirstLevel::createItem(int tag, Vec2 position)
 }
 
 //创建一个子弹
-void FirstLevel::createBullet(int tag, Vec2 position, double deg, int dam)
+void SecondLevel::createBullet(int tag, Vec2 position, double deg, int dam)
 {
 	Bullet temp;
 	temp.object = Sprite::createWithTexture(bulletPictures[tag]);
@@ -37,7 +37,7 @@ void FirstLevel::createBullet(int tag, Vec2 position, double deg, int dam)
 }
 
 //创建一个敌方子弹
-void FirstLevel::createEnemyBullet(int tag, Vec2 position, double deg, int dam)
+void SecondLevel::createEnemyBullet(int tag, Vec2 position, double deg, int dam)
 {
 	Bullet temp;
 	temp.object = Sprite::createWithTexture(enemyBulletPictures[tag]);
@@ -50,7 +50,7 @@ void FirstLevel::createEnemyBullet(int tag, Vec2 position, double deg, int dam)
 }
 
 //创建一个敌人
-void FirstLevel::createEnemy(int tag, Vec2 position, int health,int interval)
+void SecondLevel::createEnemy(int tag, Vec2 position, int health, int interval)
 {
 	Enemy temp;
 	temp.object = Sprite::createWithTexture(enemyPictures[tag]);
@@ -70,7 +70,7 @@ void FirstLevel::createEnemy(int tag, Vec2 position, int health,int interval)
 }
 
 //攻速系统
-void FirstLevel::weaponUpdate()
+void SecondLevel::weaponUpdate()
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -80,27 +80,27 @@ void FirstLevel::weaponUpdate()
 }
 
 //伤害判定系统
-void FirstLevel::hurtUpdate()
+void SecondLevel::hurtUpdate()
 {
 	if (hero.hurtCount < hero.hurtInterval)
 		hero.hurtCount++;
 }
 
 //获取随机数
-int FirstLevel::getRandom(int range)
+int SecondLevel::getRandom(int range)
 {
 	int ran = rand() % range;
 	return ran;
 }
 
 //判断tag是否为武器
-bool FirstLevel::isWeapon(int tag)
+bool SecondLevel::isWeapon(int tag)
 {
 	return (tag >= 0 && tag <= 3);
 }
 
 //按下键盘时
-void FirstLevel::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+void SecondLevel::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
 	keys[keyCode] = true;
 	if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_R)
@@ -138,7 +138,7 @@ void FirstLevel::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 						UserDefault::sharedUserDefault()->setIntegerForKey("count", count);
 						UserDefault::sharedUserDefault()->setFloatForKey("vol", CocosDenshion::SimpleAudioEngine::getInstance()->getBackgroundMusicVolume());
 						CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-						Director::getInstance()->replaceScene(SecondLevel::createScene());
+						Director::getInstance()->replaceScene(Sucess::createScene());
 					}
 					else if (itr->itemTag == 5)
 					{
@@ -170,13 +170,13 @@ void FirstLevel::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 }
 
 //松开键盘时
-void FirstLevel::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event)
+void SecondLevel::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event)
 {
 	keys[keyCode] = false;
 }
 
 //检测某个键是否被按住
-bool FirstLevel::isKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode) {
+bool SecondLevel::isKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode) {
 	if (keys[keyCode]) {
 		return true;
 	}
@@ -186,7 +186,7 @@ bool FirstLevel::isKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode) {
 }
 
 //如果某个键正被按住
-void FirstLevel::keyPressedDuration(cocos2d::EventKeyboard::KeyCode code) {
+void SecondLevel::keyPressedDuration(cocos2d::EventKeyboard::KeyCode code) {
 	int offsetX = 0, offsetY = 0;
 	int curX = hero.object->getPositionX();
 	int curY = hero.object->getPositionY();
@@ -242,7 +242,7 @@ void FirstLevel::keyPressedDuration(cocos2d::EventKeyboard::KeyCode code) {
 }
 
 //鼠标移动时
-void FirstLevel::onMouseMove(Event *event)
+void SecondLevel::onMouseMove(Event *event)
 {
 	if (hero.hp > 0)
 	{
@@ -264,7 +264,7 @@ void FirstLevel::onMouseMove(Event *event)
 }
 
 //鼠标单击时
-void FirstLevel::onMouseDown(Event *event)
+void SecondLevel::onMouseDown(Event *event)
 {
 	EventMouse* mouse = (EventMouse*)event;
 	double mouseX = mouse->getCursorX(), mouseY = mouse->getCursorY();
@@ -275,7 +275,7 @@ void FirstLevel::onMouseDown(Event *event)
 	int tag = hero.heroWeapons[hero.curWeapon];
 	if (tag == 0)
 	{
-		createBullet(0, Vec2(curX, curY), degree, 6+hero.damageUp);
+		createBullet(0, Vec2(curX, curY), degree, 6 + hero.damageUp);
 	}
 	if (tag == 1 && weaponCount[1] == weaponInterval[1])
 	{
@@ -309,11 +309,11 @@ void FirstLevel::onMouseDown(Event *event)
 			{
 				double enemyX = itr->object->getPositionX();
 				double enemyY = itr->object->getPositionY();
-				if (flag == 1 )
+				if (flag == 1)
 				{
 					if (enemyX - curX<100 && enemyX - curX>-10 && abs(enemyY - curY) < 50)
 					{
-						itr->changeHp(-7- hero.damageUp);
+						itr->changeHp(-7 - hero.damageUp);
 						itr->object->setColor(Color3B::RED);
 					}
 				}
@@ -321,7 +321,7 @@ void FirstLevel::onMouseDown(Event *event)
 				{
 					if (curX - enemyX<100 && curX - enemyX>-10 && abs(enemyY - curY) < 50)
 					{
-						itr->changeHp(-7- hero.damageUp);
+						itr->changeHp(-7 - hero.damageUp);
 						itr->object->setColor(Color3B::RED);
 					}
 				}
@@ -357,8 +357,8 @@ void FirstLevel::onMouseDown(Event *event)
 				double enemyY = itr->object->getPositionY();
 				dx = enemyX - curX;
 				dy = enemyY - curY;
-				if(sqrt(dx*dx+dy*dy)<100)
-				itr->changeHp(-7- hero.damageUp);
+				if (sqrt(dx*dx + dy*dy)<100)
+					itr->changeHp(-7 - hero.damageUp);
 				itr->object->setColor(Color3B::RED);
 				if (itr->hp == 0)
 				{
@@ -373,7 +373,7 @@ void FirstLevel::onMouseDown(Event *event)
 }
 
 //定时器
-void FirstLevel::update(float delta) {
+void SecondLevel::update(float delta) {
 	Node::update(delta);
 
 	//主角颜色复原
@@ -381,11 +381,11 @@ void FirstLevel::update(float delta) {
 
 	if (bonus == 1)
 	{
-		createItem(7+ran, Vec2(2220, 3840));
+		createItem(7 + ran, Vec2(2220, 1400));
 		bonus = 0;
 	}
 
-	if (hero.hp == 0 && hero.hurtCount==hero.hurtInterval)
+	if (hero.hp == 0 && hero.hurtCount == hero.hurtInterval)
 	{
 		CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 		Director::getInstance()->replaceScene(Dead::createScene());
@@ -506,6 +506,52 @@ void FirstLevel::update(float delta) {
 					auto moveBy = MoveBy::create(0.1, Vec2(finX, finY));
 					itr->object->runAction(moveBy);
 				}
+				//1号怪物逻辑
+				else if (itr->enemyTag == 1)
+				{
+					double finX = 4 * cos(itr->degree);
+					double finY = 4 * sin(itr->degree);
+					if (itr->dirCount < itr->dirInterval && itr->dirCount >= 0.75*itr->dirInterval)
+					{
+						finX = 0;
+						finY = 0;
+						itr->dirCount++;
+					}
+					else if (itr->dirCount >= itr->dirInterval)
+					{
+						double dx = heroX - curX;
+						double dy = heroY - curY;
+						double deg = atan2(dy, dx);
+						createEnemyBullet(1, Vec2(curX, curY), deg+PI/12, 2);
+						createEnemyBullet(1, Vec2(curX, curY), deg, 2);
+						createEnemyBullet(1, Vec2(curX, curY), deg-PI/12, 2);
+						double range = 500 - getRandom(1001);
+						if (range >= 0)
+							range += 1000;
+						else if (range < 0)
+							range -= 1000;
+						double rangeDegree = PI*(range / 3000);
+						itr->degree = deg + rangeDegree;
+						finX = 4 * cos(itr->degree);
+						finY = 4 * sin(itr->degree);
+						itr->dirCount = 0;
+					}
+					else
+					{
+						itr->dirCount++;
+					}
+
+					int tarX = curX + 10 * finX, tarY = curY + 10 * finY;
+					int tileX = tarX / 40, tileY = (4800 - tarY) / 40;
+					if (wall1Layer->getTileAt(Vec2(tileX, tileY)) != 0 || wall2Layer->getTileAt(Vec2(tileX, tileY)) != 0 || barrierLayer->getTileAt(Vec2(tileX, tileY)) != 0 || closedDoorLayer->getTileAt(Vec2(tileX, tileY)) != 0)
+					{
+						finX = 0;
+						finY = 0;
+					}
+
+					auto moveBy = MoveBy::create(0.1, Vec2(finX, finY));
+					itr->object->runAction(moveBy);
+				}
 				//2号怪物逻辑
 				else if (itr->enemyTag == 2)
 				{
@@ -529,6 +575,49 @@ void FirstLevel::update(float delta) {
 					}
 					else
 					{
+						itr->dirCount++;
+					}
+
+					int tarX = curX + 10 * finX, tarY = curY + 10 * finY;
+					int tileX = tarX / 40, tileY = (4800 - tarY) / 40;
+					if (wall1Layer->getTileAt(Vec2(tileX, tileY)) != 0 || wall2Layer->getTileAt(Vec2(tileX, tileY)) != 0 || barrierLayer->getTileAt(Vec2(tileX, tileY)) != 0 || closedDoorLayer->getTileAt(Vec2(tileX, tileY)) != 0)
+					{
+						finX = 0;
+						finY = 0;
+					}
+
+					auto moveBy = MoveBy::create(0.1, Vec2(finX, finY));
+					itr->object->runAction(moveBy);
+				}
+				//3号怪物逻辑
+				else if (itr->enemyTag == 3)
+				{
+					double finX = 6 * cos(itr->degree);
+					double finY = 6 * sin(itr->degree);
+					if (itr->dirCount < itr->dirInterval && itr->dirCount >= 0.5*itr->dirInterval)
+					{
+						finX = 0;
+						finY = 0;
+						itr->dirCount++;
+					}
+					else if (itr->dirCount >= itr->dirInterval)
+					{
+						double dx = heroX - curX;
+						double dy = heroY - curY;
+						double deg = atan2(dy, dx);
+						itr->degree = deg;
+						finX = 6 * cos(itr->degree);
+						finY = 6 * sin(itr->degree);
+						itr->dirCount = 0;
+					}
+					else
+					{
+						double dx = heroX - curX;
+						double dy = heroY - curY;
+						double deg = atan2(dy, dx);
+						itr->degree = deg;
+						finX = 6 * cos(itr->degree);
+						finY = 6 * sin(itr->degree);
 						itr->dirCount++;
 					}
 
@@ -588,7 +677,7 @@ void FirstLevel::update(float delta) {
 				{
 					enemyCount++;
 					if (enemyCount == 3)
-						createItem(7-ran+1,Vec2(curX,curY));
+						createItem(7 - ran + 1, Vec2(curX, curY));
 					this->removeChild(itr->object);
 					enemies.erase(itr);
 					break;
@@ -673,15 +762,15 @@ void FirstLevel::update(float delta) {
 			{
 				room = 1;
 			}
-			else if (curX >= 2035 && curX <= 2405 && curY >= 3695 && curY <= 3950)
+			else if (curX <= 2325 && curY <= 1485)
 			{
 				room = 2;
 			}
-			else if (curX >= 1915 && curX <= 2525 && curY >= 855 && curY <= 1510)
+			else if (curX >= 3195 && curY <= 1605)
 			{
 				room = 3;
 			}
-			else if (curX >= 3395)
+			else if (curX >= 3395 && curY>=2395)
 			{
 				room = 4;
 			}
@@ -693,23 +782,21 @@ void FirstLevel::update(float delta) {
 				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/Door.mp3");
 				if (room == 1)
 				{
-					createEnemy(0, Vec2(2000, 2320), 60, 180);
-					createEnemy(0, Vec2(2440, 2320), 60, 180);
-					createEnemy(0, Vec2(2220, 2320), 60, 120);
-					createEnemy(0, Vec2(2000, 2760), 60, 100);
-					createEnemy(0, Vec2(2440, 2760), 60, 140);
+					createEnemy(1, Vec2(2440, 2760), 100, 110);
+					createEnemy(1, Vec2(2440, 2320), 100, 110);
+					createEnemy(1, Vec2(2220, 2320), 100, 90);
 				}
-				if (room == 3)
+				else if (room == 3)
 				{
-					createEnemy(2, Vec2(2080, 1000), 80, 90);
-					createEnemy(2, Vec2(2360, 1040), 80, 90);
+					createEnemy(3, Vec2(3340, 1180), 120, 80);
+					createEnemy(3, Vec2(3740, 1580), 120, 80);
 				}
 			}
 		}
 	}
 }
 
-bool FirstLevel::init()
+bool SecondLevel::init()
 {
 
 	if (!Scene::init())
@@ -735,21 +822,21 @@ bool FirstLevel::init()
 	CocosDenshion::SimpleAudioEngine::getInstance()->setEffectsVolume(5 * UserDefault::sharedUserDefault()->getFloatForKey("vol"));
 
 	//地图
-	floor = TMXTiledMap::create("levels/FirstLevel/Floor.tmx");
+	floor = TMXTiledMap::create("levels/SecondLevel/Floor.tmx");
 	this->addChild(floor, 0);
 
-	wall1 = TMXTiledMap::create("levels/FirstLevel/Wall1.tmx");
+	wall1 = TMXTiledMap::create("levels/SecondLevel/Wall2.tmx");
 	this->addChild(wall1, 1);
-	wall2 = TMXTiledMap::create("levels/FirstLevel/Wall2.tmx");
+	wall2 = TMXTiledMap::create("levels/SecondLevel/Wall1.tmx");
 	this->addChild(wall2, 50);
 
-	barrier = TMXTiledMap::create("levels/FirstLevel/Barrier.tmx");
+	barrier = TMXTiledMap::create("levels/SecondLevel/Barrier.tmx");
 	this->addChild(barrier, 0);
 
-	door = TMXTiledMap::create("levels/FirstLevel/Door.tmx");
+	door = TMXTiledMap::create("levels/SecondLevel/Door.tmx");
 	this->addChild(door, 0);
 
-	closedDoor = TMXTiledMap::create("levels/FirstLevel/ClosedDoor.tmx");
+	closedDoor = TMXTiledMap::create("levels/SecondLevel/ClosedDoor.tmx");
 	this->addChild(closedDoor, -1);
 
 	wall1Layer = wall1->getLayer("layer1");
@@ -761,6 +848,7 @@ bool FirstLevel::init()
 	//主角
 	hero.object->setPosition(Vec2(660, 2700));
 	hero.weaponNum = 2;
+	hero.hp = UserDefault::sharedUserDefault()->getIntegerForKey("hp");
 	hero.curWeapon = UserDefault::sharedUserDefault()->getIntegerForKey("curWeapon");
 	hero.heroWeapons[0] = UserDefault::sharedUserDefault()->getIntegerForKey("weapon0");
 	hero.heroWeapons[1] = UserDefault::sharedUserDefault()->getIntegerForKey("weapon1");
@@ -780,12 +868,12 @@ bool FirstLevel::init()
 
 	//计数
 	count = 0;
-	ran= UserDefault::sharedUserDefault()->getIntegerForKey("count");
+	ran = UserDefault::sharedUserDefault()->getIntegerForKey("count");
 
 	//房间
 	room = 0;
 	roomState[0] = 0;
-	roomState[1] = 5;
+	roomState[1] = 3;
 	roomState[2] = 0;
 	roomState[3] = 2;
 	roomState[4] = 0;
@@ -832,12 +920,12 @@ bool FirstLevel::init()
 	enemyBackPictures[3] = CCTextureCache::sharedTextureCache()->addImage("enemy/MonsterBack.png");
 
 	//物品放置
-	createItem(4, Vec2(3540,2540));
-	createItem(5, Vec2(2220,3820));
+	createItem(4, Vec2(3540, 2540));
+	createItem(5,Vec2(2220,1380));
 
 	openedBox = cocos2d::Sprite::createWithTexture(pictures[6]);
-	openedBox->setPosition(Vec2(2220, 3820));
-	this->addChild(openedBox,-1);
+	openedBox->setPosition(Vec2(2220, 1380));
+	this->addChild(openedBox, -1);
 
 	//攻速系统初始化
 	weaponInterval[0] = 0;
@@ -848,11 +936,11 @@ bool FirstLevel::init()
 	weaponCount[0] = 0;
 	weaponCount[1] = 0;
 	weaponCount[2] = 0;
-	weaponCount[3] = 0;
+	weaponCount[3] = 2;
 
 	//加载武器
 	weapon = Sprite::createWithTexture(pictures[hero.heroWeapons[hero.curWeapon]]);
-	weapon->setPosition(Vec2(hero.object->getPositionX(), hero.object->getPositionY()+5));
+	weapon->setPosition(Vec2(hero.object->getPositionX(), hero.object->getPositionY() + 5));
 	this->addChild(weapon, 25);
 
 	//随机数种子设置
@@ -862,14 +950,14 @@ bool FirstLevel::init()
 
 	//键盘响应
 	auto keyboardListener = EventListenerKeyboard::create();
-	keyboardListener->onKeyPressed = CC_CALLBACK_2(FirstLevel::onKeyPressed, this);
-	keyboardListener->onKeyReleased = CC_CALLBACK_2(FirstLevel::onKeyReleased, this);
+	keyboardListener->onKeyPressed = CC_CALLBACK_2(SecondLevel::onKeyPressed, this);
+	keyboardListener->onKeyReleased = CC_CALLBACK_2(SecondLevel::onKeyReleased, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
 
 	//鼠标响应
 	auto mouseListener = EventListenerMouse::create();
-	mouseListener->onMouseMove = CC_CALLBACK_1(FirstLevel::onMouseMove, this);
-	mouseListener->onMouseDown = CC_CALLBACK_1(FirstLevel::onMouseDown, this);
+	mouseListener->onMouseMove = CC_CALLBACK_1(SecondLevel::onMouseMove, this);
+	mouseListener->onMouseDown = CC_CALLBACK_1(SecondLevel::onMouseDown, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
 
 	//定时器
